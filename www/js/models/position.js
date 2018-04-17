@@ -6,13 +6,16 @@ var position = {
     currentPosition: {},
 
     getPosition: function() {
-        navigator.geolocation.getCurrentPosition(
-            position.geoSuccess, position.geoError);
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position.geoSuccess,
+                position.geoError
+            );
+        }
     },
 
     geoSuccess: function(pos) {
         position.currentPosition = pos.coords;
-        console.log(position.currentPosition);
         m.redraw();
     },
 

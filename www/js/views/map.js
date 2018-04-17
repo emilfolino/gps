@@ -3,6 +3,8 @@
 var m = require("mithril");
 var position = require("../models/position.js");
 
+var locationMarker;
+
 function showMap() {
     var places = {
         "BTH": { lat: 56.181932, lng: 15.590525 },
@@ -45,20 +47,38 @@ function showMap() {
             }
         });
     });
+
+    locationMarker = new google.maps.Marker({
+        clickable: false,
+        icon: new google.maps.MarkerImage('https://maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+                                                        new google.maps.Size(22,22),
+                                                        new google.maps.Point(0,18),
+                                                        new google.maps.Point(11,11)),
+        shadow: null,
+        zIndex: 999,
+        map: map
+    });
+}
+
+function showPosition() {
+    if (position.currentPosition.latitude && position.currentPosition.longitude) {
+        var myPosition = new google.maps.LatLng(
+            position.currentPosition.latitude,
+            position.currentPosition.longitude
+        );
+        locationMarker.setPosition(myPosition);
+    }
 }
 
 module.exports = {
     oninit: position.getPosition,
     oncreate: function() {
-        // console.log("create");
-        // showMap();
+        showMap();
     },
     view: function() {
+        showPosition();
         return [
             m("h1", "Map"),
-            m("p", "Nuvarande position: Lat: " +
-                position.currentPosition.latitude +
-                " Long: " + position.currentPosition.longitude),
             m("div#map.map", "")
         ];
     }

@@ -1,6 +1,9 @@
+const path = require("path");
+
 module.exports = {
     entry: './www/js/index.js',
     output: {
-        filename: './www/bin/app.js'
+        path: path.resolve(__dirname, 'www/dist'),
+        filename: 'app.js'
     }
 };
