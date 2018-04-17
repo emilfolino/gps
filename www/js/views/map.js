@@ -1,6 +1,7 @@
 "use strict";
 
 var m = require("mithril");
+var position = require("../models/position.js");
 
 function showMap() {
     var places = {
@@ -47,13 +48,17 @@ function showMap() {
 }
 
 module.exports = {
-    oncreate: function () {
-        console.log("create");
-        showMap();
+    oninit: position.getPosition,
+    oncreate: function() {
+        // console.log("create");
+        // showMap();
     },
     view: function() {
         return [
             m("h1", "Map"),
+            m("p", "Nuvarande position: Lat: " +
+                position.currentPosition.latitude +
+                " Long: " + position.currentPosition.longitude),
             m("div#map.map", "")
         ];
     }
